@@ -1,0 +1,25 @@
+{
+  "name": "use-abortable-stream-fetch",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "umd:main": "dist/index.umd.js",
+  "module": "dist/index.mjs",
+  "source": "src/index.ts",
+  "description": "React hook for fetching streams that can be aborted.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  },
+  "author": "Marconi Moreto Jr. <me@marconijr.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^16.8.6",
+    "microbundle": "0.10.1",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3"
+  },
+  "peerDependencies": {
+    "react": ">= 16.8.0"
+  }
+}
