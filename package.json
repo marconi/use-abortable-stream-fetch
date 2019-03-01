@@ -12,6 +12,7 @@
     "dev": "microbundle watch"
   },
   "author": "Marconi Moreto Jr. <me@marconijr.com>",
+  "repository": "git@github.com:marconi/use-abortable-stream-fetch.git",
   "license": "MIT",
   "devDependencies": {
     "@types/react": "^16.8.6",
