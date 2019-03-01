@@ -1,6 +1,6 @@
 {
   "name": "use-abortable-stream-fetch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "umd:main": "dist/index.umd.js",
   "source": "src/index.ts",
