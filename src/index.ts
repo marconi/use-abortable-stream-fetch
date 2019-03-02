@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 
+interface StreamState {
+  data: Uint8Array | null;
+  error: Error | null;
+  controller: AbortController;
+}
+
 const useAbortableStreamFetch = (url: string, options?: RequestInit): {
   data: Uint8Array | null,
   error: Error | null,
   abort: () => void,
 } => {
-
-  interface StreamState {
-    data: Uint8Array | null;
-    error: Error | null;
-    controller: AbortController;
-  }
 
   const [state, setState] = useState<StreamState>({
     data: null,
