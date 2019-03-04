@@ -1,13 +1,24 @@
 import { useState, useEffect } from 'react';
 
 interface StreamState {
-  data: Uint8Array | null;
+  data: ArrayBuffer | null;
   error: Error | null;
   controller: AbortController;
 }
 
-const useAbortableStreamFetch = (url: string, options?: RequestInit): {
-  data: Uint8Array | null,
+interface RequestInitStream extends RequestInit {
+  streaming?: boolean;
+}
+
+const concatBuffers = (b1: ArrayBuffer, b2: ArrayBuffer) : ArrayBuffer => {
+  const tmp = new Uint8Array(b1.byteLength + b2.byteLength);
+  tmp.set(new Uint8Array(b1), 0);
+  tmp.set(new Uint8Array(b2), b1.byteLength);
+  return tmp;
+};
+
+const useAbortableStreamFetch = (url: string, options?: RequestInitStream): {
+  data: ArrayBuffer | null,
   error: Error | null,
   abort: () => void,
 } => {
@@ -36,17 +47,22 @@ const useAbortableStreamFetch = (url: string, options?: RequestInit): {
             break;
           }
 
-          setState(prevState => ({ ...prevState, ...{ data: value } }));
+          setState(prevState => {
+            const prevData = ((prevState.data) ? prevState.data :  new Int8Array()) as ArrayBuffer;
+            return {
+              ...prevState,
+              data: concatBuffers(prevData, value),
+            };
+          });
         }
       } catch (err) {
-        if (err.name !== 'AbortError') {
-          setState(prevState => ({ ...prevState, ...{ error: err } }));
-        }
+        const error = err.name !== 'AbortError' ? err : null;
+        setState(prevState => ({ ...prevState, ...{ error } }));
       }
     })();
 
     return () => state.controller.abort();
-  }, [url, options]);
+  }, [url]);
 
   return {
     data: state.data,
